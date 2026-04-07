@@ -87,7 +87,7 @@ export default function StudentGrades() {
 
       <div className="card">
         {filtered.length === 0
-          ? <div className="empty-state"><div className="icon">📝</div><p>No grades {activeTab !== 'all' ? `for ${EXAM_LABELS[activeTab]}` : ''} yet</p></div>
+          ? <div className="empty-state"><p>No grades {activeTab !== 'all' ? `for ${EXAM_LABELS[activeTab]}` : ''} yet</p></div>
           : (
             <div className="table-wrap">
               <table>

@@ -69,9 +69,9 @@ export default function StudentAssignments() {
             <div style={{ padding: '12px 14px', background: 'var(--surface2)', borderRadius: '8px', marginBottom: '16px', fontSize: '0.875rem' }}>
               <div style={{ marginBottom: '6px', color: 'var(--text2)' }}><strong style={{ color: 'var(--text)' }}>Instructions:</strong> {submitModal.description}</div>
               <div style={{ display: 'flex', gap: '20px', fontSize: '0.82rem', color: 'var(--text2)', marginTop: '8px' }}>
-                <span>📅 Due: {new Date(submitModal.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                <span>🏆 Marks: {submitModal.totalMarks}</span>
-                <span>📚 {submitModal.subject?.name}</span>
+                <span> Due: {new Date(submitModal.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                <span> Marks: {submitModal.totalMarks}</span>
+                <span> {submitModal.subject?.name}</span>
               </div>
             </div>
 
@@ -92,7 +92,7 @@ export default function StudentAssignments() {
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
                 <button type="button" className="btn-secondary" onClick={() => { setSubmitModal(null); setSubmitText(''); }}>Cancel</button>
                 <button type="submit" className="btn-primary" disabled={submitting}>
-                  {submitting ? 'Submitting...' : '📤 Submit Assignment'}
+                  {submitting ? 'Submitting...' : ' Submit Assignment'}
                 </button>
               </div>
             </form>
@@ -124,13 +124,13 @@ export default function StudentAssignments() {
       <div className="tab-bar">
         {tabs.map(t => (
           <button key={t.key} className={`tab-btn ${activeTab === t.key ? 'active' : ''}`} onClick={() => setActiveTab(t.key)}>
-            {t.key === 'overdue' ? '⚠️ ' : ''}{t.label} ({t.list.length})
+            {t.key === 'overdue' ? '' : ''}{t.label} ({t.list.length})
           </button>
         ))}
       </div>
 
       {filtered.length === 0
-        ? <div className="empty-state card"><div className="icon">📋</div><p>No {activeTab !== 'all' ? activeTab : ''} assignments</p></div>
+        ? <div className="empty-state card"><p>No {activeTab !== 'all' ? activeTab : ''} assignments</p></div>
         : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {filtered.map(a => {
@@ -144,10 +144,10 @@ export default function StudentAssignments() {
                       <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                         <span className="badge badge-accent">{a.subject?.name}</span>
                         {a.isSubmitted
-                          ? <span className="badge badge-success">✅ Submitted</span>
+                          ? <span className="badge badge-success"> Submitted</span>
                           : a.isOverdue
-                            ? <span className="badge badge-danger">⚠️ Overdue</span>
-                            : <span className="badge badge-warning">⏳ {days} day{days !== 1 ? 's' : ''} left</span>
+                            ? <span className="badge badge-danger"> Overdue</span>
+                            : <span className="badge badge-warning"> {days} day{days !== 1 ? 's' : ''} left</span>
                         }
                         {a.mySubmission?.status === 'graded' && (
                           <span className="badge badge-success">✓ Graded</span>
@@ -171,15 +171,15 @@ export default function StudentAssignments() {
                   </p>
 
                   <div style={{ display: 'flex', gap: '20px', fontSize: '0.8rem', color: 'var(--text2)', flexWrap: 'wrap' }}>
-                    <span>📅 Due: {new Date(a.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                    <span>🏆 {a.totalMarks} marks</span>
-                    <span>👨‍🏫 {a.createdBy?.name}</span>
+                    <span>Due: {new Date(a.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    <span> {a.totalMarks} marks</span>
+                    <span> {a.createdBy?.name}</span>
                   </div>
 
                   {/* Graded result */}
                   {a.mySubmission?.status === 'graded' && (
                     <div style={{ marginTop: '12px', padding: '10px 14px', background: 'rgba(6,214,160,0.08)', border: '1px solid rgba(6,214,160,0.25)', borderRadius: '8px', fontSize: '0.875rem' }}>
-                      <strong style={{ color: 'var(--success)' }}>✅ Graded:</strong>{' '}
+                      <strong style={{ color: 'var(--success)' }}>Graded:</strong>{' '}
                       <span>{a.mySubmission.marksObtained} / {a.totalMarks} marks</span>
                       {a.mySubmission.feedback && (
                         <span style={{ color: 'var(--text2)', marginLeft: '12px' }}>"{a.mySubmission.feedback}"</span>
@@ -190,7 +190,7 @@ export default function StudentAssignments() {
                   {/* Submitted but not graded */}
                   {a.mySubmission && a.mySubmission.status !== 'graded' && (
                     <div style={{ marginTop: '12px', padding: '8px 14px', background: 'rgba(255,190,11,0.08)', border: '1px solid rgba(255,190,11,0.2)', borderRadius: '8px', fontSize: '0.82rem', color: 'var(--warning)' }}>
-                      ⏳ Submitted on {new Date(a.mySubmission.submittedAt).toLocaleDateString()} — awaiting grade
+                       Submitted on {new Date(a.mySubmission.submittedAt).toLocaleDateString()} — awaiting grade
                     </div>
                   )}
                 </div>

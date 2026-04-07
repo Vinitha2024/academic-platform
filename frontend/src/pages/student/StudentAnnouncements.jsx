@@ -30,9 +30,9 @@ export default function StudentAnnouncements() {
       <div className="tab-bar">
         {[
           { key: 'all',    label: `All (${announcements.length})` },
-          { key: 'high',   label: `🔴 High (${announcements.filter(a=>a.priority==='high').length})` },
-          { key: 'medium', label: `🟡 Medium (${announcements.filter(a=>a.priority==='medium').length})` },
-          { key: 'low',    label: `🟢 Low (${announcements.filter(a=>a.priority==='low').length})` },
+          { key: 'high',   label: ` High (${announcements.filter(a=>a.priority==='high').length})` },
+          { key: 'medium', label: ` Medium (${announcements.filter(a=>a.priority==='medium').length})` },
+          { key: 'low',    label: ` Low (${announcements.filter(a=>a.priority==='low').length})` },
         ].map(f => (
           <button key={f.key} className={`tab-btn ${filter === f.key ? 'active' : ''}`} onClick={() => setFilter(f.key)}>
             {f.label}
@@ -53,7 +53,7 @@ export default function StudentAnnouncements() {
                       {a.priority} priority
                     </span>
                     <span className="badge badge-accent" style={{ textTransform: 'capitalize' }}>
-                      {a.targetAudience === 'all' ? '🌐 Everyone' : a.targetAudience === 'students' ? '🎓 Students' : '👨‍🏫 Staff'}
+                      {a.targetAudience === 'all' ? ' Everyone' : a.targetAudience === 'students' ? '🎓 Students' : '👨‍🏫 Staff'}
                     </span>
                   </div>
                 </div>

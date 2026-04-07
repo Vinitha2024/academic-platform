@@ -37,7 +37,7 @@ export default function StudentAttendance() {
 
       {/* Overall badge */}
       <div className="card mb-6" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <div style={{ width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${+overallPct >= 75 ? 'rgba(6,214,160,0.15)' : 'rgba(255,77,109,0.15)'}`, border: `3px solid ${+overallPct >= 75 ? 'var(--success)' : 'var(--danger)'}` }}>
+        <div >
           <span style={{ fontSize: '1.3rem', fontWeight: 800, fontFamily: 'var(--font-head)', color: +overallPct >= 75 ? 'var(--success)' : 'var(--danger)' }}>{overallPct}%</span>
         </div>
         <div>
@@ -47,7 +47,7 @@ export default function StudentAttendance() {
           </div>
           {+overallPct < 75 && (
             <div style={{ color: 'var(--danger)', fontSize: '0.82rem', marginTop: '4px' }}>
-              ⚠️ Below 75% minimum requirement
+               Below 75% minimum requirement
             </div>
           )}
         </div>
@@ -74,9 +74,9 @@ export default function StudentAttendance() {
                 <div className="progress-bar" style={{ width: `${s.percentage}%`, background: +s.percentage >= 75 ? 'var(--success)' : 'var(--danger)' }} />
               </div>
               <div style={{ display: 'flex', gap: '12px', fontSize: '0.78rem' }}>
-                <span style={{ color: 'var(--success)' }}>✓ {s.present}</span>
-                <span style={{ color: 'var(--danger)' }}>✗ {s.absent}</span>
-                <span style={{ color: 'var(--warning)' }}>~ {s.late}</span>
+                <span style={{ color: 'var(--success)' }}>Present {s.present}</span>
+                <span style={{ color: 'var(--danger)' }}>Absent {s.absent}</span>
+                <span style={{ color: 'var(--warning)' }}>Late {s.late}</span>
                 <span style={{ color: 'var(--text2)' }}>/ {s.total} total</span>
               </div>
             </div>
@@ -94,7 +94,7 @@ export default function StudentAttendance() {
         </div>
 
         {filtered.length === 0
-          ? <div className="empty-state"><div className="icon">📅</div><p>No attendance records yet</p></div>
+          ? <div className="empty-state"><p>No attendance records yet</p></div>
           : (
             <div className="table-wrap">
               <table>
@@ -113,7 +113,7 @@ export default function StudentAttendance() {
                       </td>
                       <td>
                         <span className={`badge ${a.status === 'present' ? 'badge-success' : a.status === 'absent' ? 'badge-danger' : 'badge-warning'}`} style={{ textTransform: 'capitalize' }}>
-                          {a.status === 'present' ? '✓' : a.status === 'absent' ? '✗' : '~'} {a.status}
+                          {a.status === 'present' ? '' : a.status === 'absent' ? '' : ''} {a.status}
                         </span>
                       </td>
                       <td style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>{a.markedBy?.name}</td>

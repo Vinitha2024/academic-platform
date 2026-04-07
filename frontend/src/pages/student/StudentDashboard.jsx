@@ -29,30 +29,29 @@ export default function StudentDashboard() {
   const attColor = attPct >= 75 ? 'var(--success)' : attPct >= 60 ? 'var(--warning)' : 'var(--danger)';
 
   const cards = [
-    { label: 'My Subjects',    value: stats?.totalSubjects      || 0, icon: '📚', color: '#6c63ff' },
-    { label: 'Attendance',     value: `${attPct}%`,                   icon: '📅', color: attColor  },
-    { label: 'Grades Entered', value: stats?.totalGrades        || 0, icon: '📝', color: '#ff6b9d' },
-    { label: 'Pending Tasks',  value: stats?.pendingAssignments || 0, icon: '📋', color: '#ffbe0b' },
+    { label: 'My Subjects',    value: stats?.totalSubjects      || 0, color: '#6c63ff' },
+    { label: 'Attendance',     value: `${attPct}%`, color: attColor  },
+    { label: 'Grades Entered', value: stats?.totalGrades        || 0, color: '#ff6b9d' },
+    { label: 'Pending Tasks',  value: stats?.pendingAssignments || 0, color: '#ffbe0b' },
   ];
 
   return (
     <div>
       <div className="page-header">
-        <h1>Hello, {user.name} 👋</h1>
+        <h1>Hello, {user.name} </h1>
         <p>{user.department} · Semester {user.semester} · Roll No: {user.rollNumber}</p>
       </div>
 
       {/* Low attendance warning */}
       {attPct > 0 && attPct < 75 && (
         <div className="alert alert-error mb-6">
-          ⚠️ Your overall attendance is <strong>{attPct}%</strong> — below the 75% minimum. Please attend classes regularly.
+          Your overall attendance is <strong>{attPct}%</strong> — below the 75% minimum. Please attend classes regularly.
         </div>
       )}
 
       <div className="grid-4" style={{ marginBottom: '28px' }}>
         {cards.map(c => (
           <div key={c.label} className="stat-card">
-            <div className="stat-icon" style={{ background: `${c.color}18` }}>{c.icon}</div>
             <div>
               <div className="stat-label">{c.label}</div>
               <div className="stat-value" style={{ color: c.color }}>{c.value}</div>
@@ -64,7 +63,7 @@ export default function StudentDashboard() {
       <div className="grid-2">
         {/* My subjects */}
         <div className="card">
-          <h3 style={{ marginBottom: '16px' }}>📚 My Subjects</h3>
+          <h3 style={{ marginBottom: '16px' }}>My Subjects</h3>
           {subjects.length === 0
             ? <div className="empty-state" style={{ padding: '24px' }}><p>No subjects for your department & semester yet</p></div>
             : subjects.map(s => (
@@ -86,7 +85,7 @@ export default function StudentDashboard() {
 
         {/* Announcements */}
         <div className="card">
-          <h3 style={{ marginBottom: '16px' }}>📢 Latest Announcements</h3>
+          <h3 style={{ marginBottom: '16px' }}> Latest Announcements</h3>
           {announcements.length === 0
             ? <div className="empty-state" style={{ padding: '24px' }}><p>No announcements yet</p></div>
             : announcements.map(a => (

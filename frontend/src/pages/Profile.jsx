@@ -91,10 +91,10 @@ export default function Profile() {
       {/* Tabs */}
       <div className="tab-bar">
         <button className={`tab-btn ${tab === 'info' ? 'active' : ''}`} onClick={() => setTab('info')}>
-          👤 Personal Info
+           Personal Info
         </button>
         <button className={`tab-btn ${tab === 'password' ? 'active' : ''}`} onClick={() => setTab('password')}>
-          🔑 Change Password
+           Change Password
         </button>
       </div>
 
@@ -147,10 +147,10 @@ export default function Profile() {
             <div style={{ padding: '12px 14px', background: 'var(--surface2)', borderRadius: '8px', marginBottom: '16px', fontSize: '0.85rem' }}>
               <div style={{ color: 'var(--text2)', marginBottom: '6px', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Academic Info (read-only)</div>
               <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-                {user.department && <span>🏛️ {user.department}</span>}
-                {user.semester   && <span>📅 Semester {user.semester}</span>}
-                {user.rollNumber && <span>🎓 Roll: {user.rollNumber}</span>}
-                {user.employeeId && <span>💼 ID: {user.employeeId}</span>}
+                {user.department && <span> {user.department}</span>}
+                {user.semester   && <span> Semester {user.semester}</span>}
+                {user.rollNumber && <span> Roll: {user.rollNumber}</span>}
+                {user.employeeId && <span> ID: {user.employeeId}</span>}
               </div>
             </div>
 
@@ -196,7 +196,7 @@ export default function Profile() {
               />
               {pw.confirm && pw.newPassword !== pw.confirm && (
                 <div style={{ color: 'var(--danger)', fontSize: '0.8rem', marginTop: '4px' }}>
-                  ⚠️ Passwords do not match
+                   Passwords do not match
                 </div>
               )}
             </div>

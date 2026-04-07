@@ -37,7 +37,7 @@ export default function Sidebar({ links }) {
 
       <nav style={{ flex: 1, padding: '12px 12px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
         {links.map(link => (
-          <NavLink key={link.to} to={link.to} style={({ isActive }) => ({
+          <NavLink key={link.to} to={link.to} end style={({ isActive }) => ({
             display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px',
             color: isActive ? '#fff' : 'var(--text2)', background: isActive ? 'var(--accent)' : 'transparent',
             fontWeight: isActive ? 600 : 400, fontSize: '0.875rem', transition: 'all 0.15s', textDecoration: 'none'
@@ -49,7 +49,7 @@ export default function Sidebar({ links }) {
       </nav>
 
       <div style={{ padding: '12px' }}>
-        <button onClick={handleLogout} style={{ width: '100%', padding: '10px', background: 'var(--surface2)', color: 'var(--text2)', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem' }}>
+        <button onClick={handleLogout} style={{ width: '100%', padding: '10px', background: 'var(--danger)', color: '#fff', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem' }}>
            Logout
         </button>
       </div>

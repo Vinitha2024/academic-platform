@@ -19,19 +19,18 @@ export default function StaffDashboard() {
   return (
     <div>
       <div className="page-header">
-        <h1>Welcome, {user.name} 👋</h1>
+        <h1>Welcome, {user.name} </h1>
         <p>Staff Dashboard · {user.department}</p>
       </div>
 
       <div className="grid-4" style={{ marginBottom: '28px' }}>
         {[
-          { label: 'My Subjects', value: stats?.mySubjectsCount || 0, icon: '📚', color: '#6c63ff' },
-          { label: 'Attendance Marked', value: stats?.totalAttendanceMarked || 0, icon: '📅', color: '#00d4aa' },
-          { label: 'Grades Entered', value: stats?.totalGradesEntered || 0, icon: '📝', color: '#ff6b9d' },
-          { label: 'Assignments', value: stats?.totalAssignmentsCreated || 0, icon: '📋', color: '#ffbe0b' },
+          { label: 'My Subjects', value: stats?.mySubjectsCount || 0, color: '#6c63ff' },
+          { label: 'Attendance Marked', value: stats?.totalAttendanceMarked || 0, color: '#00d4aa' },
+          { label: 'Grades Entered', value: stats?.totalGradesEntered || 0, color: '#ff6b9d' },
+          { label: 'Assignments', value: stats?.totalAssignmentsCreated || 0, color: '#ffbe0b' },
         ].map(s => (
           <div key={s.label} className="stat-card">
-            <div className="stat-icon" style={{ background: `${s.color}22` }}>{s.icon}</div>
             <div><div className="stat-label">{s.label}</div><div className="stat-value" style={{ color: s.color }}>{s.value}</div></div>
           </div>
         ))}
@@ -39,7 +38,7 @@ export default function StaffDashboard() {
 
       <div className="grid-2">
         <div className="card">
-          <h3 style={{ marginBottom: '16px', fontFamily: 'var(--font-head)' }}>📚 My Subjects</h3>
+          <h3 style={{ marginBottom: '16px', fontFamily: 'var(--font-head)' }}> My Subjects</h3>
           {stats?.mySubjects?.length === 0 ? <div className="empty-state"><p>No subjects assigned yet</p></div> : (
             stats?.mySubjects?.map(s => (
               <div key={s._id} style={{ padding: '12px', background: 'var(--surface2)', borderRadius: '8px', marginBottom: '8px' }}>
@@ -53,7 +52,7 @@ export default function StaffDashboard() {
         </div>
 
         <div className="card">
-          <h3 style={{ marginBottom: '16px', fontFamily: 'var(--font-head)' }}>📢 Recent Announcements</h3>
+          <h3 style={{ marginBottom: '16px', fontFamily: 'var(--font-head)' }}> Recent Announcements</h3>
           {announcements.length === 0 ? <div className="empty-state"><p>No announcements</p></div> : (
             announcements.map(a => (
               <div key={a._id} style={{ padding: '12px', background: 'var(--surface2)', borderRadius: '8px', marginBottom: '8px' }}>

@@ -25,7 +25,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Toaster position="top-right" toastOptions={{ style: { background: '#16161f', color: '#e8e8f0', border: '1px solid #2a2a3a' } }} />
+        <Toaster position="top-right" toastOptions={{ style: { background: '#ffffff', color: '#111827', border: '1px solid #d8dee7', boxShadow: '0 12px 30px rgba(15,23,42,0.08)' } }} />
         <Routes>
           <Route path="/" element={<RootRedirect />} />
           <Route path="/login" element={<LoginPage />} />

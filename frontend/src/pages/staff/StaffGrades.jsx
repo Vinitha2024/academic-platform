@@ -169,7 +169,7 @@ export default function StaffGrades() {
       {!fetching && selectedSubject && (
         <div className="card">
           {grades.length === 0
-            ? <div className="empty-state"><div className="icon">📝</div><p>No grades entered for this subject yet</p></div>
+            ? <div className="empty-state"><p>No grades entered for this subject yet</p></div>
             : (
               <div className="table-wrap">
                 <table>
@@ -198,7 +198,7 @@ export default function StaffGrades() {
       )}
 
       {!selectedSubject && (
-        <div className="empty-state card"><div className="icon">📝</div><p>Select a subject to view and enter grades</p></div>
+        <div className="empty-state card"><p>Select a subject to view and enter grades</p></div>
       )}
     </div>
   );

@@ -86,8 +86,8 @@ export default function StaffAttendance() {
       </div>
 
       <div className="tab-bar">
-        <button className={`tab-btn ${tab === 'mark' ? 'active' : ''}`} onClick={() => setTab('mark')}>📅 Mark Attendance</button>
-        <button className={`tab-btn ${tab === 'summary' ? 'active' : ''}`} onClick={() => setTab('summary')}>📊 Attendance Summary</button>
+        <button className={`tab-btn ${tab === 'mark' ? 'active' : ''}`} onClick={() => setTab('mark')}> Mark Attendance</button>
+        <button className={`tab-btn ${tab === 'summary' ? 'active' : ''}`} onClick={() => setTab('summary')}> Attendance Summary</button>
       </div>
 
       {/* Subject + Date selector — shared */}

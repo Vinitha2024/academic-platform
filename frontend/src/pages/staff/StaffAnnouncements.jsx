@@ -55,7 +55,7 @@ export default function StaffAnnouncements() {
             <div style={{ fontSize: '0.8rem', color: 'var(--text2)' }}>By {a.postedBy?.name} · {new Date(a.createdAt).toLocaleDateString()}</div>
           </div>
         ))}
-        {announcements.length === 0 && <div className="empty-state card"><div className="icon">📢</div><p>No announcements</p></div>}
+        {announcements.length === 0 && <div className="empty-state card"><p>No announcements</p></div>}
       </div>
     </div>
   );

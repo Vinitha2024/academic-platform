@@ -42,28 +42,25 @@ export default function StudentGrades() {
       {/* GPA + summary cards */}
       <div className="grid-4 mb-6">
         <div className="stat-card">
-          <div className="stat-icon" style={{ background: `${gpaColor}18` }}>🎯</div>
           <div>
             <div className="stat-label">Current GPA</div>
             <div className="stat-value" style={{ color: gpaColor }}>{gpa || '—'}</div>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon" style={{ background: 'rgba(108,99,255,0.15)' }}>📚</div>
           <div>
             <div className="stat-label">Subjects Graded</div>
             <div className="stat-value" style={{ color: '#6c63ff' }}>{Object.keys(bySubject).length}</div>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon" style={{ background: 'rgba(0,212,170,0.15)' }}>📝</div>
           <div>
             <div className="stat-label">Total Entries</div>
             <div className="stat-value" style={{ color: '#00d4aa' }}>{grades.length}</div>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon" style={{ background: 'rgba(255,190,11,0.15)' }}>⭐</div>
+
           <div>
             <div className="stat-label">Best Grade</div>
             <div className="stat-value" style={{ color: '#ffbe0b' }}>

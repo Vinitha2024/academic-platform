@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'https://*.vercel.app'],
+  origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'https://*.vercel.app', 'https://*.onrender.com'],
   credentials: true
 }));
 app.use(express.json());

@@ -5,82 +5,204 @@ import toast from 'react-hot-toast';
 
 export default function Profile() {
   const { user, updateUser } = useAuth();
-  const [form, setForm] = useState({ name: user.name, phone: user.phone || '', address: user.address || '' });
-  const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirm: '' });
-  const [tab, setTab] = useState('profile');
+  const [tab,    setTab]    = useState('info');
+  const [saving, setSaving] = useState(false);
 
-  const handleProfile = async (e) => {
+  const [info, setInfo] = useState({
+    name:        user.name        || '',
+    phone:       user.phone       || '',
+    address:     user.address     || '',
+    dateOfBirth: user.dateOfBirth ? user.dateOfBirth.slice(0, 10) : '',
+  });
+
+  const [pw, setPw] = useState({
+    currentPassword: '',
+    newPassword:     '',
+    confirm:         '',
+  });
+
+  const handleInfoSave = async (e) => {
     e.preventDefault();
+    if (info.name.trim().length < 2) return toast.error('Name must be at least 2 characters');
+    setSaving(true);
     try {
-      const { data } = await api.put('/auth/profile', form);
+      const { data } = await api.put('/auth/profile', info);
       updateUser(data.user);
-      toast.success('Profile updated');
-    } catch (err) { toast.error(err.response?.data?.message || 'Error'); }
+      toast.success('Profile updated successfully');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Error updating profile');
+    } finally { setSaving(false); }
   };
 
-  const handlePassword = async (e) => {
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
-    if (pwForm.newPassword !== pwForm.confirm) return toast.error('Passwords do not match');
-    if (pwForm.newPassword.length < 6) return toast.error('Min 6 characters');
+    if (pw.newPassword !== pw.confirm) return toast.error('New passwords do not match');
+    if (pw.newPassword.length < 6)     return toast.error('New password must be at least 6 characters');
+    setSaving(true);
     try {
-      await api.post('/auth/change-password', { currentPassword: pwForm.currentPassword, newPassword: pwForm.newPassword });
+      await api.post('/auth/change-password', {
+        currentPassword: pw.currentPassword,
+        newPassword:     pw.newPassword,
+      });
       toast.success('Password changed successfully');
-      setPwForm({ currentPassword: '', newPassword: '', confirm: '' });
-    } catch (err) { toast.error(err.response?.data?.message || 'Error'); }
+      setPw({ currentPassword: '', newPassword: '', confirm: '' });
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Error changing password');
+    } finally { setSaving(false); }
   };
 
-  const roleColor = { admin: '#ff6b9d', staff: '#6c63ff', student: '#00d4aa' };
+  const roleColors  = { admin: '#ff6b9d', staff: '#6c63ff', student: '#00d4aa' };
+  const roleLabels  = { admin: 'Administrator', staff: 'Faculty', student: 'Student' };
+  const color       = roleColors[user.role] || '#6c63ff';
 
   return (
     <div>
-      <div className="page-header"><h1>My Profile</h1><p>Manage your account information</p></div>
+      <div className="page-header">
+        <h1>My Profile</h1>
+        <p>Manage your personal information and security settings</p>
+      </div>
+
+      {/* Profile card */}
       <div className="card mb-6">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: `${roleColor[user.role]}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', border: `3px solid ${roleColor[user.role]}44` }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+          <div style={{
+            width: '76px', height: '76px', borderRadius: '50%',
+            background: `${color}18`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-head)',
+            color, border: `3px solid ${color}40`, flexShrink: 0,
+          }}>
             {user.name.charAt(0).toUpperCase()}
           </div>
           <div>
-            <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '1.4rem' }}>{user.name}</h2>
-            <div style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>{user.email}</div>
-            <div style={{ marginTop: '8px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              <span className="badge badge-accent" style={{ textTransform: 'capitalize' }}>{user.role}</span>
-              {user.department && <span className="badge badge-success">{user.department}</span>}
+            <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '1.4rem', marginBottom: '4px' }}>{user.name}</h2>
+            <div style={{ color: 'var(--text2)', fontSize: '0.875rem', marginBottom: '8px' }}>{user.email}</div>
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+              <span className="badge" style={{ background: `${color}18`, color }}>{roleLabels[user.role]}</span>
+              {user.department && <span className="badge badge-accent">{user.department}</span>}
+              {user.semester   && <span className="badge badge-success">Semester {user.semester}</span>}
               {user.rollNumber && <span className="badge badge-warning">Roll: {user.rollNumber}</span>}
-              {user.employeeId && <span className="badge badge-warning">EMP: {user.employeeId}</span>}
-              {user.semester && <span className="badge badge-accent">Semester {user.semester}</span>}
+              {user.employeeId && <span className="badge badge-warning">ID: {user.employeeId}</span>}
             </div>
           </div>
         </div>
       </div>
 
+      {/* Tabs */}
       <div className="tab-bar">
-        <button className={`tab-btn ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}> Profile Info</button>
-        <button className={`tab-btn ${tab === 'password' ? 'active' : ''}`} onClick={() => setTab('password')}>Change Password</button>
+        <button className={`tab-btn ${tab === 'info' ? 'active' : ''}`} onClick={() => setTab('info')}>
+          👤 Personal Info
+        </button>
+        <button className={`tab-btn ${tab === 'password' ? 'active' : ''}`} onClick={() => setTab('password')}>
+          🔑 Change Password
+        </button>
       </div>
 
-      {tab === 'profile' && (
-        <div className="card">
-          <form onSubmit={handleProfile}>
-            <div className="grid-2">
-              <div className="form-group"><label>Full Name</label><input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required /></div>
-              <div className="form-group"><label>Email </label><input value={user.email} disabled style={{ opacity: 0.6 }} /></div>
+      {/* Personal Info Tab */}
+      {tab === 'info' && (
+        <div className="card" style={{ maxWidth: '560px' }}>
+          <form onSubmit={handleInfoSave}>
+            <div className="form-group">
+              <label>Full Name *</label>
+              <input
+                value={info.name}
+                onChange={e => setInfo(f => ({...f, name: e.target.value}))}
+                required
+                placeholder="Your full name"
+              />
+            </div>
+            <div className="form-group">
+              <label>Email Address (cannot change)</label>
+              <input value={user.email} disabled style={{ opacity: 0.55 }} />
             </div>
             <div className="grid-2">
-              <div className="form-group"><label>Phone</label><input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+91 9876543210" /></div>
-              <div className="form-group"><label>Department </label><input value={user.department || 'N/A'} disabled style={{ opacity: 0.6 }} /></div>
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input
+                  value={info.phone}
+                  onChange={e => setInfo(f => ({...f, phone: e.target.value}))}
+                  placeholder="+91 9876543210"
+                />
+              </div>
+              <div className="form-group">
+                <label>Date of Birth</label>
+                <input
+                  type="date"
+                  value={info.dateOfBirth}
+                  onChange={e => setInfo(f => ({...f, dateOfBirth: e.target.value}))}
+                />
+              </div>
             </div>
-            <button type="submit" className="btn-primary">Save Changes</button>
+            <div className="form-group">
+              <label>Address</label>
+              <textarea
+                value={info.address}
+                onChange={e => setInfo(f => ({...f, address: e.target.value}))}
+                rows={3}
+                placeholder="Your address"
+              />
+            </div>
+
+            {/* Read-only role fields */}
+            <div style={{ padding: '12px 14px', background: 'var(--surface2)', borderRadius: '8px', marginBottom: '16px', fontSize: '0.85rem' }}>
+              <div style={{ color: 'var(--text2)', marginBottom: '6px', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Academic Info (read-only)</div>
+              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                {user.department && <span>🏛️ {user.department}</span>}
+                {user.semester   && <span>📅 Semester {user.semester}</span>}
+                {user.rollNumber && <span>🎓 Roll: {user.rollNumber}</span>}
+                {user.employeeId && <span>💼 ID: {user.employeeId}</span>}
+              </div>
+            </div>
+
+            <button type="submit" className="btn-primary" disabled={saving}>
+              {saving ? 'Saving...' : 'Save Changes'}
+            </button>
           </form>
         </div>
       )}
 
+      {/* Change Password Tab */}
       {tab === 'password' && (
-        <div className="card" style={{ maxWidth: '480px' }}>
-          <form onSubmit={handlePassword}>
-            <div className="form-group"><label>Current Password</label><input type="password" value={pwForm.currentPassword} onChange={e => setPwForm(f => ({ ...f, currentPassword: e.target.value }))} required /></div>
-            <div className="form-group"><label>New Password (min 6 chars)</label><input type="password" value={pwForm.newPassword} onChange={e => setPwForm(f => ({ ...f, newPassword: e.target.value }))} required /></div>
-            <div className="form-group"><label>Confirm New Password</label><input type="password" value={pwForm.confirm} onChange={e => setPwForm(f => ({ ...f, confirm: e.target.value }))} required /></div>
-            <button type="submit" className="btn-primary">Change Password</button>
+        <div className="card" style={{ maxWidth: '440px' }}>
+          <form onSubmit={handlePasswordChange}>
+            <div className="form-group">
+              <label>Current Password *</label>
+              <input
+                type="password"
+                value={pw.currentPassword}
+                onChange={e => setPw(f => ({...f, currentPassword: e.target.value}))}
+                required
+                placeholder="Enter current password"
+              />
+            </div>
+            <div className="form-group">
+              <label>New Password * (min 6 characters)</label>
+              <input
+                type="password"
+                value={pw.newPassword}
+                onChange={e => setPw(f => ({...f, newPassword: e.target.value}))}
+                required
+                placeholder="Enter new password"
+              />
+            </div>
+            <div className="form-group">
+              <label>Confirm New Password *</label>
+              <input
+                type="password"
+                value={pw.confirm}
+                onChange={e => setPw(f => ({...f, confirm: e.target.value}))}
+                required
+                placeholder="Repeat new password"
+              />
+              {pw.confirm && pw.newPassword !== pw.confirm && (
+                <div style={{ color: 'var(--danger)', fontSize: '0.8rem', marginTop: '4px' }}>
+                  ⚠️ Passwords do not match
+                </div>
+              )}
+            </div>
+            <button type="submit" className="btn-primary" disabled={saving || (pw.confirm && pw.newPassword !== pw.confirm)}>
+              {saving ? 'Changing...' : 'Change Password'}
+            </button>
           </form>
         </div>
       )}

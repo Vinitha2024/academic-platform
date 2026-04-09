@@ -30,8 +30,6 @@ export default function StudentGrades() {
   const examTypes = ['all', 'internal1', 'internal2', 'midterm', 'final', 'assignment', 'quiz'];
   const filtered  = activeTab === 'all' ? grades : grades.filter(g => g.examType === activeTab);
 
-  const gpaColor = +gpa >= 8 ? 'var(--success)' : +gpa >= 6 ? 'var(--warning)' : 'var(--danger)';
-
   return (
     <div>
       <div className="page-header">
@@ -39,14 +37,8 @@ export default function StudentGrades() {
         <p>Academic performance across all subjects</p>
       </div>
 
-      {/* GPA + summary cards */}
-      <div className="grid-4 mb-6">
-        <div className="stat-card">
-          <div>
-            <div className="stat-label">Current GPA</div>
-            <div className="stat-value" style={{ color: gpaColor }}>{gpa || '—'}</div>
-          </div>
-        </div>
+      {/* Summary cards */}
+      <div className="grid-3 mb-6">
         <div className="stat-card">
           <div>
             <div className="stat-label">Subjects Graded</div>
@@ -57,17 +49,6 @@ export default function StudentGrades() {
           <div>
             <div className="stat-label">Total Entries</div>
             <div className="stat-value" style={{ color: '#00d4aa' }}>{grades.length}</div>
-          </div>
-        </div>
-        <div className="stat-card">
-
-          <div>
-            <div className="stat-label">Best Grade</div>
-            <div className="stat-value" style={{ color: '#ffbe0b' }}>
-              {grades.length > 0
-                ? grades.reduce((best, g) => (GRADE_POINTS[g.grade] || 0) > (GRADE_POINTS[best.grade] || 0) ? g : best, grades[0]).grade
-                : '—'}
-            </div>
           </div>
         </div>
       </div>

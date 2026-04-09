@@ -44,16 +44,36 @@ router.get('/grades', async (req, res) => {
     if (semester) query.semester = parseInt(semester);
     const grades = await Grade.find(query)
       .populate('subject', 'name code credits').populate('gradedBy', 'name').sort({ createdAt: -1 });
+    
+    console.log('=== GPA Debug Info ===');
+    console.log('Total grades found:', grades.length);
+    console.log('Grades data:', JSON.stringify(grades.map(g => ({
+      id: g._id,
+      grade: g.grade,
+      subject: g.subject?.name,
+      credits: g.subject?.credits
+    })), null, 2));
+    
     const gradePoints = { 'O': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5, 'D': 4, 'F': 0 };
     let totalCredits = 0, weightedPoints = 0;
-    grades.filter(g => g.examType === 'final').forEach(g => {
+    grades.forEach(g => {
       const credits = g.subject?.credits || 0;
+      const points = gradePoints[g.grade] || 0;
       totalCredits += credits;
-      weightedPoints += (gradePoints[g.grade] || 0) * credits;
+      weightedPoints += points * credits;
+      console.log(`Grade: ${g.grade}, Credits: ${credits}, Points: ${points}, Contribution: ${points * credits}`);
     });
+    console.log('Total Credits:', totalCredits, 'Weighted Points:', weightedPoints);
+    
     const gpa = totalCredits > 0 ? (weightedPoints/totalCredits).toFixed(2) : 0;
+    console.log('Final GPA:', gpa);
+    console.log('==================');
+    
     res.json({ grades, gpa, totalCredits });
-  } catch { res.status(500).json({ message: 'Server error' }); }
+  } catch (err) { 
+    console.error('Error in /grades:', err);
+    res.status(500).json({ message: 'Server error' }); 
+  }
 });
 
 router.get('/assignments', async (req, res) => {

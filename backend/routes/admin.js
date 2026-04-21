@@ -6,6 +6,7 @@ const Announcement = require('../models/Announcement');
 const Grade = require('../models/Grade');
 const Attendance = require('../models/Attendance');
 const { auth, authorize } = require('../middleware/auth');
+const { sendAnnouncementEmails } = require('../utils/mailer');
 
 const router = express.Router();
 router.use(auth, authorize('admin'));
@@ -321,9 +322,22 @@ router.post('/announcements', [
     const announcement = new Announcement({ ...req.body, postedBy: req.user._id });
     await announcement.save();
     await announcement.populate('postedBy', 'name role');
+
+    // ── Send emails fire-and-forget (never blocks or breaks this route) ──
+    const postedByName = req.user.name || 'Admin';
+    let recipientQuery = { isActive: true };
+    if (announcement.targetAudience === 'students')     recipientQuery.role = 'student';
+    else if (announcement.targetAudience === 'staff')   recipientQuery.role = 'staff';
+    else                                                 recipientQuery.role = { $in: ['student', 'staff'] };
+
+    User.find(recipientQuery).select('email name').then(recipients => {
+      sendAnnouncementEmails(announcement.toObject(), postedByName, recipients);
+    }).catch(e => console.error('Recipient fetch error:', e.message));
+
     res.status(201).json({ announcement, message: 'Announcement created successfully' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Create announcement error:', err);
+    res.status(500).json({ message: 'Server error: ' + err.message });
   }
 });
 

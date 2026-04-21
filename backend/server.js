@@ -48,7 +48,7 @@ async function dropStaleIndexes() {
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {
-    console.log('✅ Connected to MongoDB Atlas');
+    console.log(' Connected to MongoDB Atlas');
 
     // Drop old bad indexes before starting server
     await dropStaleIndexes();

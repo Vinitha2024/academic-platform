@@ -1,10 +1,4 @@
-/**
- * Run this ONCE after updating the User model to remove the old
- * sparse+unique indexes on rollNumber and employeeId that were
- * causing "duplicate key" errors when creating multiple users.
- *
- * Usage:  node dropIndexes.js
- */
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 
@@ -17,25 +11,24 @@ async function dropBadIndexes() {
     const indexes = await collection.indexes();
     console.log('Current indexes:', indexes.map(i => i.name));
 
-    // Drop rollNumber index if it exists
     try {
       await collection.dropIndex('rollNumber_1');
-      console.log('✅ Dropped rollNumber_1 index');
+      console.log(' Dropped rollNumber_1 index');
     } catch (e) {
-      console.log('ℹ️  rollNumber_1 index not found (already removed or never existed)');
+      console.log('rollNumber_1 index not found (already removed or never existed)');
     }
 
     // Drop employeeId index if it exists
     try {
       await collection.dropIndex('employeeId_1');
-      console.log('✅ Dropped employeeId_1 index');
+      console.log(' Dropped employeeId_1 index');
     } catch (e) {
-      console.log('ℹ️  employeeId_1 index not found (already removed or never existed)');
+      console.log(' employeeId_1 index not found (already removed or never existed)');
     }
 
     const remaining = await collection.indexes();
     console.log('\nRemaining indexes:', remaining.map(i => i.name));
-    console.log('\n✅ Done! You can now create multiple students and staff without duplicate errors.');
+    console.log('\n Done! You can now create multiple students and staff without duplicate errors.');
     process.exit(0);
   } catch (err) {
     console.error('Error:', err.message);

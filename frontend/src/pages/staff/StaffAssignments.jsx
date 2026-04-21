@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import toast from 'react-hot-toast';
 
-const DEPARTMENTS = ['CSE','IT','ECE','Mechanical','Civil','Food Tech','AIDS','AIML'];
+const DEPARTMENTS = ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical', 'Civil', 'Chemical', 'Mathematics', 'Physics'];;
 
 export default function StaffAssignments() {
   const [subjects, setSubjects]    = useState([]);

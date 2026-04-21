@@ -54,8 +54,8 @@ export default function Profile() {
       </div>
 
       <div className="tab-bar">
-        <button className={`tab-btn ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}>👤 Profile Info</button>
-        <button className={`tab-btn ${tab === 'password' ? 'active' : ''}`} onClick={() => setTab('password')}>🔑 Change Password</button>
+        <button className={`tab-btn ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}>Profile Info</button>
+        <button className={`tab-btn ${tab === 'password' ? 'active' : ''}`} onClick={() => setTab('password')}>Change Password</button>
       </div>
 
       {tab === 'profile' && (

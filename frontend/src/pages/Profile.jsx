@@ -121,26 +121,10 @@ export default function Profile() {
                 <input
                   value={info.phone}
                   onChange={e => setInfo(f => ({...f, phone: e.target.value}))}
-                  placeholder="+91 9876543210"
+                  placeholder="+91 xxxxxxxxxx"
                 />
               </div>
-              <div className="form-group">
-                <label>Date of Birth</label>
-                <input
-                  type="date"
-                  value={info.dateOfBirth}
-                  onChange={e => setInfo(f => ({...f, dateOfBirth: e.target.value}))}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label>Address</label>
-              <textarea
-                value={info.address}
-                onChange={e => setInfo(f => ({...f, address: e.target.value}))}
-                rows={3}
-                placeholder="Your address"
-              />
+              
             </div>
 
             {/* Read-only role fields */}

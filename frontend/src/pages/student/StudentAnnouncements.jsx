@@ -41,7 +41,7 @@ export default function StudentAnnouncements() {
       </div>
 
       {filtered.length === 0
-        ? <div className="empty-state card"><div className="icon">📢</div><p>No announcements yet</p></div>
+        ? <div className="empty-state card"><p>No announcements yet</p></div>
         : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {filtered.map(a => (
@@ -53,7 +53,7 @@ export default function StudentAnnouncements() {
                       {a.priority} priority
                     </span>
                     <span className="badge badge-accent" style={{ textTransform: 'capitalize' }}>
-                      {a.targetAudience === 'all' ? ' Everyone' : a.targetAudience === 'students' ? '🎓 Students' : '👨‍🏫 Staff'}
+                      {a.targetAudience === 'all' ? ' Everyone' : a.targetAudience === 'students' ? '🎓 Students' : 'Staff'}
                     </span>
                   </div>
                 </div>

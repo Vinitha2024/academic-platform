@@ -179,7 +179,7 @@ export default function StaffAttendance() {
           )}
 
           {!selectedSubject && (
-            <div className="empty-state card"><div className="icon">📅</div><p>Select a subject to start marking attendance</p></div>
+            <div className="empty-state card"><p>Select a subject to start marking attendance</p></div>
           )}
         </>
       )}
@@ -224,10 +224,10 @@ export default function StaffAttendance() {
             </div>
           )}
           {!fetching && selectedSubject && summary.length === 0 && (
-            <div className="empty-state"><div className="icon">📊</div><p>No attendance records for this subject yet</p></div>
+            <div className="empty-state"><p>No attendance records for this subject yet</p></div>
           )}
           {!selectedSubject && (
-            <div className="empty-state"><div className="icon">📊</div><p>Select a subject to view attendance summary</p></div>
+            <div className="empty-state"><p>Select a subject to view attendance summary</p></div>
           )}
         </div>
       )}
